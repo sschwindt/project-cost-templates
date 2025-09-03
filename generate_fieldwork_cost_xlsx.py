@@ -20,7 +20,7 @@ Sheets created
   private-car rate and trip-cap, rental per-km, default overnight,
   Hiwi hourly rate).
 - **Staff & Participants**: One row per person. Roles supported:
-  WiMi, Hiwi (student assistant), Student (unpaid). Calculates
+  WiMi, Lab (VA), Hiwi (student assistant), Student (unpaid). Calculates
   per-diems (no meal deductions), overnights, hours-based wages for Hiwis,
   and participant subtotals.
 - **Hours Log**: Date, task, first/last name, hours. Aggregated back to
@@ -139,14 +139,14 @@ rates.append(["Item", "Value (EUR)", "Notes"])
 make_header(rates[1])
 
 rate_rows = [
-    ("Per diem - full day (domestic)", 24, "Defaults to EUR 24 per full day."),
-    ("Stadtmobil base rate", 150, "Set to average base rate in EUR for all Stadtmobil rentals."),
+    ("Per diem - full day (domestic)", 24, "Defaults to EUR 24 per full day"),
+    ("Stadtmobil base rate", 150, "Set to average base rate in EUR for all Stadtmobil rentals"),
     ("Number of Stadtmobil cars", 1, "Define number of rented cars"),
     ("Total trip kilometers", 100, "Define the sum of all km per car"),
-    ("Stadtmobil per-km cost (incl. fuel)", 0.35, "Planning value only; adjust to Stadtmobil rate for relevant cars."),
-    ("Alternative - Stadtmobil lump sum", 0, "Enter a lump sum in EUR for all Stadtmobil rentals (e.g., for post-cost assessment)."),
-    ("Default overnight cost per night", 95, "Planning cap or expected average incl. taxes; edit per trip."),
-    ("Hiwi hourly rate (default)", 20.00, "Accounts for future wage raises."),
+    ("Stadtmobil per-km cost (incl. fuel)", 0.35, "Planning value only; adjust to Stadtmobil rate for relevant cars"),
+    ("Alternative - Stadtmobil lump sum", 0, "Enter a lump sum in EUR for all Stadtmobil rentals (e.g., for post-cost assessment)"),
+    ("Default overnight cost per night", 95, "Planning cap or expected average incl. taxes; edit per trip"),
+    ("Hiwi hourly rate (default)", 20.00, "Accounts for future wage raises"),
 ]
 for r in rate_rows:
     rates.append(list(r))
@@ -177,7 +177,7 @@ for nm, a1 in {
 # ------------------------------
 staff = wb.create_sheet("Staff & Participants")
 staff_headers = [
-    "First name","Last name","Role (WiMi/Hiwi/Unpaid graduating student)",
+    "First name","Last name","Role (WiMi/VA/Hiwi/Unpaid graduating student)",
     "Trip start (date/time)","Trip end (date/time)",
     "Full-day count","Partial-day count (>8h or arr/dep)",
     "Per-diem total (EUR)",
@@ -191,7 +191,7 @@ set_col_width(staff, [16,16,30,20,20,16,22,18,10,22,18,22,16,12,18,20])
 # Role dropdown
 dv_role = DataValidation(
     type="list",
-    formula1='"WiMi,Hiwi (student assistant),Student (unpaid)"',
+    formula1='"WiMi,Lab (VA),Hiwi (student assistant),Student (unpaid)"',
     allow_blank=True
 )
 staff.add_data_validation(dv_role)
@@ -325,7 +325,7 @@ summary.append(["","",""])  # spacer
 summary.append(["Category","Subtotal (EUR)","Notes"]); make_header(summary[3])
 
 # Staff/participants subtotals
-summary.append(["Per-diems (total)", "=IFERROR('Staff & Participants'!H302,0)", "WiMi & Hiwi only; unpaid students excluded."])
+summary.append(["Per-diems (total)", "=IFERROR('Staff & Participants'!H302,0)", "WiMi, VA & Hiwi only; unpaid students excluded."])
 summary.append(["Overnights", "=IFERROR('Staff & Participants'!K302,0)", "Nights x cost/night."])
 summary.append(["Hiwi wages", "=IFERROR('Staff & Participants'!O302,0)", "Hours x rate if used)."])
 
@@ -354,7 +354,7 @@ summary.cell(row=10, column=2).style = "currency"
 
 # Notes
 summary.append(["","",""])
-summary.append(["Notes","","Set rates in 'Inputs & Rates'. Roles: WiMi & Hiwis may receive per-diem; 'Student (unpaid)' receives overnights only."])
+summary.append(["Notes","","Set rates in 'Inputs & Rates'. Roles: WiMi, VA staff & Hiwis may receive per-diem; 'Student (unpaid)' receives overnights only."])
 
 summary.freeze_panes = "A4"
 
